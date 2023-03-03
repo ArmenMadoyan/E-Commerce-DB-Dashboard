@@ -1,5 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `Coolina`;
-USE `Coolina`;
+CREATE DATABASE  IF NOT EXISTS `coolina`;
+USE `coolina`;
+
+-- SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS; 
+-- SET FOREIGN_KEY_CHECKS=0;
 
 DROP TABLE IF EXISTS `customer`;
 CREATE TABLE `customer` (
@@ -9,25 +12,6 @@ CREATE TABLE `customer` (
     PRIMARY KEY (`email`)
 )  ENGINE=INNODB DEFAULT CHARSET=LATIN1;
 
-
---
--- Table structure for table `product`
---
-
-DROP TABLE IF EXISTS `product`;
-CREATE TABLE `product` (
-    `product_sku` VARCHAR(11) NOT NULL,
-    `product_name` VARCHAR(50),
-    `product_price` VARCHAR(50),
-    `product_compare_at_price` VARCHAR(10),
-    `product_requires_shipping` VARCHAR(100),
-    `product_taxable` VARCHAR(10),
-    PRIMARY KEY (`product_sku`)
-)  ENGINE=INNODB DEFAULT CHARSET=LATIN1;
-
---
--- Table structure for table `order`
---
 
 DROP TABLE IF EXISTS `orders`;
 CREATE TABLE `orders` (
@@ -64,15 +48,13 @@ CREATE TABLE `orders` (
     `shipping_phone` VARCHAR(50),
     `notes` VARCHAR(200),
     `payment_method` VARCHAR(50),
-    `email` VARCHAR(50),
+    `email` VARCHAR(50) NOT NULL,
     PRIMARY KEY (`order_id`),
     FOREIGN KEY (`email`)
         REFERENCES `customer` (`email`)
 )  ENGINE=INNODB DEFAULT CHARSET=LATIN1;
 
---
--- Table structure for table `abaondoned_order`
---
+
 
 DROP TABLE IF EXISTS `abandoned_order`;
 CREATE TABLE `abandoned_order` (
@@ -104,16 +86,24 @@ CREATE TABLE `abandoned_order` (
     `shipping_country` VARCHAR(20),
     `shipping_phone` VARCHAR(50),
     `notes` VARCHAR(200),
-    `email` VARCHAR(50),
+    `email` VARCHAR(50) NOT NULL,
     PRIMARY KEY (`abandoned_order_id`),
     FOREIGN KEY (`email`)
         REFERENCES `customer` (`email`)
 )  ENGINE=INNODB DEFAULT CHARSET=LATIN1;
 
+DROP TABLE IF EXISTS `product`;
+CREATE TABLE `product` (
+    `product_sku` VARCHAR(11) NOT NULL,
+    `product_name` VARCHAR(50),
+    `product_price` VARCHAR(50),
+    `product_compare_at_price` VARCHAR(10),
+    `product_requires_shipping` VARCHAR(100),
+    `product_taxable` VARCHAR(10),
+    PRIMARY KEY (`product_sku`)
+)  ENGINE=INNODB DEFAULT CHARSET=LATIN1;
 
---
--- Table structure for table `_order_item`
---
+
 
 DROP TABLE IF EXISTS `order_item`;
 CREATE TABLE `order_item` (
@@ -123,15 +113,11 @@ CREATE TABLE `order_item` (
     `product_fulfillment` VARCHAR(20),
     PRIMARY KEY (`order_id` , `product_sku`),
     FOREIGN KEY (`order_id`)
-        REFERENCES `order` (`order_id`),
+        REFERENCES `orders` (`order_id`),
     FOREIGN KEY (`product_sku`)
         REFERENCES `product` (`product_sku`)
 )  ENGINE=INNODB DEFAULT CHARSET=LATIN1;
 
-
---
--- Table structure for table `abandoned_order_item`
---
 
 DROP TABLE IF EXISTS `abandoned_order_item`;
 CREATE TABLE `abandoned_order_item` (
@@ -145,3 +131,5 @@ CREATE TABLE `abandoned_order_item` (
     FOREIGN KEY (`product_sku`)
         REFERENCES `product` (`product_sku`)
 )  ENGINE=INNODB DEFAULT CHARSET=LATIN1;
+
+-- SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
