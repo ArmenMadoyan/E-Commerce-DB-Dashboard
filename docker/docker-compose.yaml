@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  coolina-db:
+    image: 'mysql/mysql-server'
+    restart: unless-stopped
+    environment: 
+      MYSQL_DATABASE: 'coolina'
+      MYSQL_USER: 'root'
+      MYSQL_PASSWORD: 'arm2002'
+      MYSQL_ROOT_PASSWORD: 'arm2002'
+    container_name: coolina-db
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - /home/armen/coolina-volume:/var/lib/mysql
+    
+  grafana:
+    image: 'grafana/grafana'
+    container_name: grafana
+    restart: unless-stopped
+    ports: 
+      - '3000:3000'
+    volumes:
+      - /home/armen/grafana-volume:/var/lib/grafana
