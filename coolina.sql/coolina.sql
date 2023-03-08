@@ -27,7 +27,7 @@ CREATE TABLE `orders` (
     `shipping` VARCHAR(10) NOT NULL,
     `taxes` VARCHAR(10) NOT NULL,
     `total` VARCHAR(10) NOT NULL,
-    `discount_code` VARCHAR(10),
+    `discount_code` VARCHAR(50),
     `discount_amount` VARCHAR(50),
     `shipping_method` VARCHAR(50),
     `billing_name` VARCHAR(50),
@@ -46,7 +46,7 @@ CREATE TABLE `orders` (
     `shipping_province` VARCHAR(50),
     `shipping_country` VARCHAR(20),
     `shipping_phone` VARCHAR(50),
-    `notes` VARCHAR(200),
+    `notes` VARCHAR(300),
     `payment_method` VARCHAR(50),
     `email` VARCHAR(50) NOT NULL,
     PRIMARY KEY (`order_id`),
@@ -66,9 +66,9 @@ CREATE TABLE `abandoned_order` (
     `shipping` VARCHAR(10) NOT NULL,
     `taxes` VARCHAR(10) NOT NULL,
     `total` VARCHAR(10) NOT NULL,
-    `discount_code` VARCHAR(10),
+    `discount_code` VARCHAR(50),
     `discount_amount` VARCHAR(10),
-    `shipping_method` VARCHAR(10),
+    `shipping_method` VARCHAR(100),
     `billing_name` VARCHAR(50),
     `billing_address1` VARCHAR(50),
     `billing_address2` VARCHAR(50),
@@ -85,7 +85,7 @@ CREATE TABLE `abandoned_order` (
     `shipping_province` VARCHAR(50),
     `shipping_country` VARCHAR(20),
     `shipping_phone` VARCHAR(50),
-    `notes` VARCHAR(200),
+    `notes` VARCHAR(300),
     `email` VARCHAR(50) NOT NULL,
     PRIMARY KEY (`abandoned_order_id`),
     FOREIGN KEY (`email`)
@@ -94,8 +94,8 @@ CREATE TABLE `abandoned_order` (
 
 DROP TABLE IF EXISTS `product`;
 CREATE TABLE `product` (
-    `product_sku` VARCHAR(11) NOT NULL,
-    `product_name` VARCHAR(50),
+    `product_sku` VARCHAR(50) NOT NULL,
+    `product_name` VARCHAR(100),
     `product_price` VARCHAR(50),
     `product_compare_at_price` VARCHAR(10),
     `product_requires_shipping` VARCHAR(100),
@@ -108,21 +108,21 @@ CREATE TABLE `product` (
 DROP TABLE IF EXISTS `order_item`;
 CREATE TABLE `order_item` (
     `order_id` VARCHAR(20) NOT NULL,
-    `product_sku` VARCHAR(20) NOT NULL,
+    `product_sku` VARCHAR(50) NOT NULL,
     `quantity` VARCHAR(5),
     `product_fulfillment` VARCHAR(20),
-    PRIMARY KEY (`order_id` , `product_sku`),
     FOREIGN KEY (`order_id`)
         REFERENCES `orders` (`order_id`),
     FOREIGN KEY (`product_sku`)
-        REFERENCES `product` (`product_sku`)
+        REFERENCES `product` (`product_sku`),
+    PRIMARY KEY (`order_id` , `product_sku`)    
 )  ENGINE=INNODB DEFAULT CHARSET=LATIN1;
 
 
 DROP TABLE IF EXISTS `abandoned_order_item`;
 CREATE TABLE `abandoned_order_item` (
     `abandoned_order_id` VARCHAR(20) NOT NULL,
-    `product_sku` VARCHAR(20) NOT NULL,
+    `product_sku` VARCHAR(50) NOT NULL,
     `quantity` VARCHAR(5),
     `product_fulfillment` VARCHAR(20),
     PRIMARY KEY (`abandoned_order_id` , `product_sku`),

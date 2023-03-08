@@ -11,11 +11,11 @@ services:
       MYSQL_ROOT_PASSWORD: 'arm2002'
     container_name: coolina-db
     ports:
-      - '3306:3306'
+      - '3310:3306'
     expose:
       - '3306'
     volumes:
-      - /home/armen/coolina-volume:/var/lib/mysql
+      - C:\Users\armen\Downloads\Data Science\Coolina\docker\coolina-volume:/var/lib/mysql
     
   grafana:
     image: 'grafana/grafana'
@@ -24,4 +24,4 @@ services:
     ports: 
       - '3000:3000'
     volumes:
-      - /home/armen/grafana-volume:/var/lib/grafana
+      - C:\Users\armen\Downloads\Data Science\Coolina\docker\grafana-volume:/var/lib/grafana
